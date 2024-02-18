@@ -1,0 +1,12 @@
+package com.tcs.app;
+
+import org.junit.jupiter.api.Test;
+
+public class Calculator {
+
+	@Test
+	public int add(int a, int b)
+	{
+		return a-b;
+	}
+}

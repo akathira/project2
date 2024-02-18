@@ -1,0 +1,61 @@
+package com.tcs.servletdemo;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class CookieServlet
+ */
+@WebServlet("/counter")
+public class CookieServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public CookieServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		PrintWriter out = response.getWriter();
+		int count=0;
+		
+		Cookie cookies[]= request.getCookies();
+		for(Cookie c:cookies) {
+			if(c.getName().equals("visits"))
+			{
+				count  = Integer.parseInt(c.getValue());
+				count++;
+			}
+		}
+		
+		Cookie cookie = new Cookie("visits",++count+""); // here two values are string. count is converted to string as type concation
+		response.addCookie(cookie);
+		out.println("You have refreshed"+count+"times");
+		
+		out.println(count=count+1); // it will initial every time & give the same result.
+		//cookies will have to store the value, the next request it will get incremented for counter.
+	}
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

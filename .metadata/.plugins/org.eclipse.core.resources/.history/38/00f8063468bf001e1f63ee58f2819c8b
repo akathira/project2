@@ -1,0 +1,27 @@
+package com.test.inheritance;
+
+public class Bond extends investmentInstrument{
+	
+	private String startDate;
+	private String repayDate;
+	
+	public Bond() {
+		
+	}
+
+	public Bond(String iid, String title, String type, String fund) {
+		super(iid, title, type, fund);
+		this.startDate=startDate;
+		this.repayDate=repayDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Bond [startDate=" + startDate + ", repayDate=" + repayDate + ", toString()=" + super.toString()
+				+ ", getIid()=" + getIid() + ", getTitle()=" + getTitle() + ", getType()=" + getType() + ", getFund()="
+				+ getFund() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + "]";
+	}
+	
+	
+
+}

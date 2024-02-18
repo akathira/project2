@@ -1,0 +1,22 @@
+package com.tcs.exceptions;
+
+public class ExceptionTest {
+	
+	public static Exception method(RuntimeException r) throws Exception
+	{
+		if(r==null)
+			 throw new Exception("Null Exception");
+			 else
+				 return new RuntimeException("REturning without Exeption");
+	}
+	
+	public static void main(String[] args)
+	{
+		try {
+			method(new RuntimeException());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}

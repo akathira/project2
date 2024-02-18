@@ -1,0 +1,10 @@
+package com.tcs.edureka;
+
+public class Transactions {
+	
+	private int transactionId;
+	private String transDate;
+	private double transAmount;
+	private int investerId;
+
+}

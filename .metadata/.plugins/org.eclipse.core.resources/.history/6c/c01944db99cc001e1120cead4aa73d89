@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * 
+ */
+module Day15JavaTesting {
+	requires org.junit.jupiter.api;
+}

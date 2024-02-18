@@ -1,0 +1,18 @@
+package com.tcs.jdbc;
+
+public class FirstJdbc {
+
+	public static void main(String[] args) {
+		//1. Establish connection = 3 -> url, username, pwd of database
+		// url= "jdbc:mysql://localhost:3306:schemaname/dbname"
+		//2. obtain statement reference
+		//3. prepare SQL statements
+		//4. Execute statements
+		//5. Process and fetch result set
+		//6. close connection
+		
+		
+
+	}
+
+}

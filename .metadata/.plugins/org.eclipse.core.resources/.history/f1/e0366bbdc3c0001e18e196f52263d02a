@@ -1,0 +1,9 @@
+package com.tcs.collections;
+
+import java.util.*;
+
+public class InvestmentTransactions {
+	
+	ArrayList<Investor> transactions = new ArrayList();
+
+}

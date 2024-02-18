@@ -1,0 +1,183 @@
+package com.tcs.InvestmentBrokerTradingSystem;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+
+public class BrokerTrading {
+
+	public static void main(String[] args) {
+
+		Configuration configure = new Configuration();
+		configure = configure.configure();
+		SessionFactory factory = configure.buildSessionFactory();
+		Session session = factory.openSession();
+		Transaction transaction = session.beginTransaction();
+
+		// 1. Insert the transactions and Investors data
+
+		Investors i1 = new Investors(1, "xxxxx", "chennai", 10000);
+		Investors i2 = new Investors(2, "yyyyy", "hyd", 20000);
+		Investors i3 = new Investors(5, "zzzzz", "hyd", 30000);
+		Investors i4 = new Investors(6, "bbbbb", "hyd", 40000);
+		Investors i5 = new Investors(7, "aaaaa", "delhi", 50000);
+
+		ArrayList<Investors> investorsList = new ArrayList();
+
+		investorsList.add(i1);
+		investorsList.add(i2);
+		investorsList.add(i3);
+		investorsList.add(i4);
+		investorsList.add(i5);
+
+		System.out.print("Input for Investors data stored in database, Investor Id:");
+		for (int i = 0; i < investorsList.size(); i++) {
+			System.out.print(investorsList.get(i).getId() + " ");
+			session.save(investorsList.get(i));
+
+		}
+		System.out.println();
+
+		Transactions t1 = new Transactions(101, "01-jan-24", 1000, 1);
+		Transactions t2 = new Transactions(102, "02-jan-24", 2000, 2);
+		Transactions t3 = new Transactions(103, "03-jan-24", 3000, 5);
+		Transactions t4 = new Transactions(104, "04-jan-24", 4000, 4);
+		Transactions t5 = new Transactions(105, "05-jan-24", 5000, 3);
+		Transactions t6 = new Transactions(106, "06-jan-24", 6000, 6);
+		Transactions t7 = new Transactions(107, "07-jan-24", 7000, 7);
+
+		ArrayList<Transactions> transactions = new ArrayList();
+		transactions.add(t1);
+		transactions.add(t2);
+		transactions.add(t3);
+		transactions.add(t4);
+		transactions.add(t5);
+		transactions.add(t6);
+		transactions.add(t7);
+
+		printTransaction(transactions);
+
+		// validated with InvestorId for each transaction & store it in DB
+
+		/*
+		 * ArrayList<Investors> investorsListFromDB = new ArrayList();
+		 * 
+		 * for(int i =0; i<5; i++) { Investors getInvestors =
+		 * session.get(Investors.class, i);
+		 * System.out.println("Fetch all the Investors stored from database" +
+		 * getInvestors); investorsListFromDB.add(getInvestors);
+		 * 
+		 * }
+		 */
+		ArrayList<Investors> investorsListFromDB = new ArrayList();
+
+		Query<Investors> query = session.createQuery("select i from Investors i");
+		List<Investors> result = query.list();
+		Iterator<Investors> iter = result.iterator();
+		while (iter.hasNext()) {
+			investorsListFromDB.add(iter.next());
+
+		}
+
+		ArrayList<Transactions> transactionListFromDB = new ArrayList();
+
+		// System.out.print("Inserted successfully for transaction ID: ");
+		for (Transactions trans : transactions) {
+			ArrayList<Transactions> idValidation = validateInvestorId(investorsListFromDB, trans);
+			for (int i = 0; i < idValidation.size(); i++) {
+				session.save(idValidation.get(i));
+				transactionListFromDB.add(trans);
+				// System.out.print(trans.getTransactionId()+" ");
+				break;
+			}
+
+		}
+
+		for (int i = 0; i < transactionListFromDB.size(); i++) {
+			Transactions getTransactions = session.get(Transactions.class, i);
+			System.out.println("Fetch all the Transactions stored from database" + getTransactions);
+		}
+
+		// 2. Update transaction's and Investor's data in database
+		Transactions trans1 = session.get(Transactions.class, 101);
+		trans1.setTransactionAmount(9000.0);
+		session.update(trans1);
+		System.out.println("Updated transactionAmount for Id-101 in database: " + trans1.getTransactionAmount());
+
+		Transactions trans2 = session.get(Transactions.class, 102);
+		trans2.setTransactionDate("09-jan-2023");
+		session.update(trans2);
+		System.out.println("Updated transactionDate for Id-102 in database: " + trans2.getTransactionAmount());
+
+		Investors investors = session.get(Investors.class, 1);
+		investors.setName("rrrrr");
+		session.update(investors);
+		System.out.println("Updated InvestorName for Id-1 in database: " + investors.getName());
+
+		Investors investors2 = session.get(Investors.class, 2);
+		investors2.setName("nnnnn");
+		session.update(investors2);
+		System.out.println("Updated InvestorName for Id-2 in database: " + investors2.getName());
+
+		Investors investors3 = session.get(Investors.class, 6);
+		investors3.setAmount(7800);
+		session.update(investors3);
+		System.out.println("Updated InvestorAmt for Id-6 in database: " + investors3.getAmount());
+
+		Query<Transactions> query1 = session.createQuery("select t from Transactions t");
+		List<Transactions> result1 = query1.list();
+		Iterator<Transactions> iter1 = result1.iterator();
+		while (iter1.hasNext()) {
+			System.out.println(iter1.next());
+		}
+
+		Query<Investors> query2 = session.createQuery("select i from Investors i");
+		List<Investors> result2 = query.list();
+		Iterator<Investors> iter2 = result.iterator();
+		while (iter2.hasNext()) {
+			System.out.println(iter2.next());
+
+		}
+
+		Investors getInvestors = session.get(Investors.class, 1);
+		System.out.println(getInvestors);
+
+		Transactions getTransactions = session.get(Transactions.class, 102);
+		System.out.println(getTransactions);
+
+		transaction.commit();
+		session.close();
+
+	}
+
+	private static void printTransaction(ArrayList<Transactions> transactions) {
+
+		System.out.print("Input for Transactions data, Transaction ID: ");
+		for (int i = 0; i < transactions.size(); i++) {
+			System.out.print(transactions.get(i).getTransactionId() + " ");
+		}
+
+		System.out.println();
+	}
+
+	private static ArrayList<Transactions> validateInvestorId(ArrayList<Investors> investorsList, Transactions t) {
+
+		ArrayList<Transactions> transactions = new ArrayList();
+
+		for (int i = 0; i < investorsList.size(); i++) {
+			if (t.getInvesterId() == investorsList.get(i).getId()) {
+
+				System.out.println("Transaction created for transactionId: " + t.getTransactionId());
+				transactions.add(t);
+			}
+		}
+		return transactions;
+
+	}
+
+}

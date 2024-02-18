@@ -1,0 +1,50 @@
+package com.test.inheritance;
+
+public class investmentInstrument {
+	
+	String iid;
+	String title;
+	String type;
+	String fund;
+	@Override
+	public String toString() {
+		return "investmentInstrument [iid=" + iid + ", title=" + title + ", type=" + type + ", fund=" + fund + "]";
+	}
+	public String getIid() {
+		return iid;
+	}
+	public void setIid(String iid) {
+		this.iid = iid;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getFund() {
+		return fund;
+	}
+	public void setFund(String fund) {
+		this.fund = fund;
+	}
+	public investmentInstrument(String iid, String title, String type, String fund) {
+		super();
+		this.iid = iid;
+		this.title = title;
+		this.type = type;
+		this.fund = fund;
+	}
+	public investmentInstrument() {
+		super();
+	}
+	
+	
+
+}

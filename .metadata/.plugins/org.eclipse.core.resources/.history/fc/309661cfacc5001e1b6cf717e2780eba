@@ -1,0 +1,18 @@
+package com.tcs.ioc;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class TestAreaCircle {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans3.xml");
+		Object obj = context.getBean("circle");
+		Circle b= (Circle) obj;
+		
+		
+		
+
+	}
+
+}

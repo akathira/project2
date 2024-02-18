@@ -1,0 +1,14 @@
+package com.test.inheritance;
+
+public class Bond extends investmentInstrument{
+	
+	private String startDate;
+	private String repayDate;
+	
+	public Bond() {
+		
+	}
+	
+	
+
+}
